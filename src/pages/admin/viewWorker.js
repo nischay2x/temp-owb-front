@@ -32,6 +32,7 @@ export default function ViewWorker() {
   const [open, setOpen] = useState(false);
   const [gridApi, setGridApi] = useState(null);
   const [token, setToken] = useState("");
+  const [jobData, setJobData] = useState([]);
   const loginUser = useSelector((state) => state.userReducer);
   const localuser = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function ViewWorker() {
     navigate(`/${url}`, {
       state: {
         data: data,
+        jobdata: jobData,
       },
     });
   };
@@ -135,11 +137,12 @@ export default function ViewWorker() {
         gridApi.showLoadingOverlay();
         getViewWorkers(token, location.state.id)
           .then((res) => {
-            console.log("view worker", res.data.persons.length);
             if (!res.data.persons.length) {
               gridApi.showNoRowsOverlay();
+              console.log("view worker if----------------", res.data);
             } else {
               gridApi.hideOverlay();
+              setJobData(res.data.job);
             }
             params.successCallback(res.data.persons, res.data.persons.length);
           })

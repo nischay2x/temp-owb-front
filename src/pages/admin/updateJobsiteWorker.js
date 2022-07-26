@@ -25,9 +25,10 @@ export default function UpdateJobsiteWorker() {
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state.data;
+  const jobData = location.state.jobdata;
   const classes = useStyles();
   const [token, setToken] = useState("");
-  const [jobSite, setJobsite] = useState(data.job_site);
+  const [jobSite, setJobsite] = useState(jobData.job_site);
   const [startDate, setJobStartDate] = useState(data.user_start_date);
   const [endDate, setJobEndDate] = useState(data.user_end_date);
   const [email, setEmail] = useState(data.email);

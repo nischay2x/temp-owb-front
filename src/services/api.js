@@ -102,3 +102,10 @@ export const resetPassword = (postableData) =>
       "Content-Type": "application/json",
     },
   });
+export const adminHome = (token, startDate, endDate) =>
+  fetch(Baseurl + `home?from=${startDate}&to=${endDate}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());

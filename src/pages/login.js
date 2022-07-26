@@ -39,11 +39,11 @@ export default function Login() {
     }
   }, [loginUser]);
   const homeRedirect = (status, email) => {
-    navigate("/home", {
-      state: {
-        name: "chetan",
-      },
-    });
+    if (loginUser.data.role === "user") {
+      navigate("/home");
+    } else {
+      navigate("/homeAdmin");
+    }
   };
   const HandleLogin = async (e) => {
     e.preventDefault();

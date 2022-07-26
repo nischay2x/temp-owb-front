@@ -141,7 +141,7 @@ export default function Workers() {
               redirectJob("viewJob", params.data.id, params.data.email)
             }
           >
-            View Job
+            View Jobs
           </Button>
         </div>
       ),

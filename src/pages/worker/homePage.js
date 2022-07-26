@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
-    backgroundColor: "#4c79a1",
-    color: "white",
+    backgroundColor: "#e5ecf2",
+    color: "grey",
   },
 }));
 export default function Home() {
@@ -126,6 +126,15 @@ export default function Home() {
   return (
     <Layout>
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
+        <Box
+          sx={{
+            bgcolor: "#4c79a1",
+            color: "white",
+            p: 2,
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+          }}
+        ></Box>
         <div className="ag-theme-alpine" style={{ height: "550px" }}>
           <div style={containerStyle}>
             <div style={gridStyle} className="ag-theme-alpine">
