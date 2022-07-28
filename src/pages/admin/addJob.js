@@ -13,11 +13,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getJobsites, getUsers, postUserJob } from "../../services/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, Typography } from "@mui/material";
 import { RemoveCircle } from "@material-ui/icons";
+import AlertBox from "../../common/alert";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -29,9 +30,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4c79a1",
     color: "white",
   },
+  gridpadding: {
+    padding: "0px",
+  },
 }));
 
 export default function AddJob() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [getJobData, setGetJobData] = useState({
     start_date: "",
@@ -87,15 +92,18 @@ export default function AddJob() {
     }));
     console.log("postable data", postableData);
 
-    try {
-      postUserJob(token, postableData).then((res) => {
-        console.log("res", res);
-        alert(res.data.msg);
-        setFormFields([]);
+    postUserJob(token, postableData)
+      .then((res) => {
+        if (res.data.status === true) {
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+          setFormFields([]);
+        } else {
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+        }
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const addFields = () => {
@@ -116,6 +124,7 @@ export default function AddJob() {
   return (
     <Layout>
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
+        <AlertBox />
         <Box
           sx={{
             bgcolor: "#4c79a1",
@@ -163,7 +172,7 @@ export default function AddJob() {
                 Add job
               </Button>
             </Grid>
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} style={{ width: "100%" }}>
               {formFields?.map((f, index) => {
                 return (
                   <Box key={index}>
@@ -171,6 +180,9 @@ export default function AddJob() {
                       container
                       rowspacing={1}
                       columnspacing={{ xs: 1, sm: 2, md: 3 }}
+                      item
+                      xs={12}
+                      className={classes.gridpadding}
                     >
                       <Grid item xs={4}>
                         <FormControl fullWidth sx={{ mt: 1, mb: 1 }}>
@@ -254,7 +266,7 @@ export default function AddJob() {
                           />
                         </LocalizationProvider>
                       </Grid>
-                      <Grid item xs={4}>
+                      <Grid item xs={3}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                           <DatePicker
                             name="userEndDate"
@@ -319,7 +331,7 @@ export default function AddJob() {
                           />
                         </LocalizationProvider>
                       </Grid> */}
-                      <Grid container justify="flex-end">
+                      <Grid item xs={1} container justify="flex-end">
                         <RemoveCircle
                           style={{
                             marginTop: "15px",
@@ -339,6 +351,7 @@ export default function AddJob() {
           <Box
             sx={{
               mt: 5,
+              pl: 1.25,
               display: "flex",
               justifyContent: "space-between",
               width: "100%",

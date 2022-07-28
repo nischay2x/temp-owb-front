@@ -17,7 +17,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { makeStyles } from "@material-ui/core";
 import { Button, ListItemButton } from "@mui/material";
-import { Home, Person, Work } from "@material-ui/icons";
+import {
+  Home,
+  Person,
+  SettingsInputComponentOutlined,
+  Work,
+} from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../actions/user";
 import { useDispatch, useSelector } from "react-redux";
@@ -240,7 +245,7 @@ const Header = (props) => {
             <ListItem disablePadding>
               <ListItemButton onClick={workersRedirect}>
                 <ListItemIcon>
-                  <Work className={classes.icon} />
+                  <SettingsInputComponentOutlined className={classes.icon} />
                 </ListItemIcon>
                 <ListItemText primary="Workers" />
               </ListItemButton>

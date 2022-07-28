@@ -1,7 +1,9 @@
 import { Box, Button, Container, Paper, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import AlertBox from "../common/alert";
 import { resetPassword } from "../services/api";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ResetPassword() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const classes = useStyles();
@@ -39,25 +42,31 @@ export default function ResetPassword() {
     if (newPassword != confirmNewPassword) {
       alert("please enter same password as confirm password");
     }
-    try {
-      const postableData = {
-        email,
-        otp,
-        newPassword,
-        confirmNewPassword,
-      };
-      resetPassword(postableData).then((res) => {
-        console.log("res", res);
-        alert(res.data.msg);
-        Redirectlogin();
+
+    const postableData = {
+      email,
+      otp,
+      newPassword,
+      confirmNewPassword,
+    };
+    resetPassword(postableData)
+      .then((res) => {
+        if (res.data.status === true) {
+          console.log("res", res);
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+          Redirectlogin();
+        } else {
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+        }
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
     <Container component="main" maxWidth="xs">
+      <AlertBox />
       <Box>
         <Paper
           style={{

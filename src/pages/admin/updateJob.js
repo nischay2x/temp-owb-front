@@ -2,12 +2,13 @@ import { Box, Button, Card, Grid, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Layout from "../../common/layout";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateJob } from "../../services/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import AlertBox from "../../common/alert";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpdateJob() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state.data;
@@ -46,26 +48,29 @@ export default function UpdateJob() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    try {
-      const postableData = {
-        jobSite,
-        startDate,
-        endDate,
-      };
-      console.log("postablebgffggfg", postableData);
 
-      updateJob(data.id, token, postableData).then((res) => {
+    const postableData = {
+      jobSite,
+      startDate,
+      endDate,
+    };
+    console.log("postablebgffggfg", postableData);
+
+    updateJob(data.id, token, postableData)
+      .then((res) => {
         console.log("res", res);
-        alert(res.data.msg);
+        dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+        // alert(res.data.msg);
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
     <Layout>
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
+        <AlertBox />
         <Box
           sx={{
             bgcolor: "#4c79a1",

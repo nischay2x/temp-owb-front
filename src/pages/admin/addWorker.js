@@ -13,7 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getUsers,
   getViewWorkers,
@@ -23,6 +23,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, Typography } from "@mui/material";
 import { RemoveCircle } from "@material-ui/icons";
+import AlertBox from "../../common/alert";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddWorker() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [getJobData, setGetJobData] = useState({
     start_date: "",
@@ -99,15 +101,18 @@ export default function AddWorker() {
     }));
     console.log(postableData);
 
-    try {
-      postUserJob(token, postableData).then((res) => {
-        console.log("res", res);
-        alert(res.data.msg);
-        setFormFields([]);
+    postUserJob(token, postableData)
+      .then((res) => {
+        if (res.data.status === true) {
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+          setFormFields([]);
+        } else {
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+        }
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const addFields = () => {
@@ -132,6 +137,7 @@ export default function AddWorker() {
   return (
     <Layout>
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
+        <AlertBox />
         <Box
           sx={{
             bgcolor: "#4c79a1",
@@ -376,7 +382,7 @@ export default function AddWorker() {
                           />
                         </LocalizationProvider>
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid container justify="flex-end" item md={8} xs={8}>
                         <RemoveCircle
                           style={{
                             marginTop: "15px",

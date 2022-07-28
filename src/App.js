@@ -17,6 +17,8 @@ import Login from "./pages/login";
 import ResetPassword from "./pages/resetPassword";
 import Home from "./pages/worker/homePage";
 import Profile from "./pages/worker/profile";
+import "./css/style.css";
+import Page404 from "./common/page404";
 
 function App() {
   return (
@@ -44,6 +46,7 @@ function App() {
             path="/updateJobsiteWorker"
             element={<UpdateJobsiteWorker />}
           />
+          <Route path="/*" element={<Page404 />} />
         </Routes>
       </div>
     </Router>

@@ -1,7 +1,9 @@
 import { Box, Button, Container, Paper, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import AlertBox from "../common/alert";
 import { forgetPassword } from "../services/api";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ForgetPassword() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const classes = useStyles();
   const [email, setEmail] = useState("");
@@ -36,22 +39,26 @@ export default function ForgetPassword() {
   };
   const HandleForgetPassword = async (e) => {
     e.preventDefault();
-    try {
-      const postableData = {
-        email,
-      };
-      forgetPassword(postableData).then((res) => {
-        console.log("res", res);
-        alert(res.data.msg);
-        RedirectResetPassword();
+    const postableData = {
+      email,
+    };
+    forgetPassword(postableData)
+      .then((res) => {
+        if (res.data.status === true) {
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+          RedirectResetPassword();
+        } else {
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+        }
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
     <Container component="main" maxWidth="xs">
+      <AlertBox />
       <Box>
         <Paper
           style={{

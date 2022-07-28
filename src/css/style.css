@@ -1,0 +1,21 @@
+.MuiGrid-item{
+    padding: 10px;
+}
+.title-h6 {
+    font-weight: 700;
+    color: #4c79a1;
+    padding: 0px;
+    margin: 0px;
+  }
+.MuiDialogTitle-root{
+    padding: 0px 24px 16px !important;
+}
+.MuiTypography-h6 {
+    font-weight: 300 !important;
+}
+.blue-button{
+    background-color: #4c79a1 !important;
+}
+.blue-button .MuiButton-label{
+    color: white !important;
+}

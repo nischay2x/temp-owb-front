@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../actions/user";
+import AlertBox from "../common/alert";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -56,6 +57,7 @@ export default function Login() {
 
   return (
     <Container component="main" maxWidth="xs">
+      <AlertBox />
       <Box>
         <Paper
           style={{

@@ -1,4 +1,4 @@
-import { Box, Button } from "@material-ui/core";
+import { Box, Button, Grid } from "@material-ui/core";
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useMemo, useState } from "react";
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -196,18 +196,19 @@ export default function JobSites() {
             borderTopRightRadius: "10px",
           }}
         >
-          <Button
-            onClick={RedirectAddJob}
-            style={{
-              justifyContent: "flex-end",
-              color: "white",
-              display: "flex",
-              width: "100%",
-              flexFlow: "row",
-            }}
-          >
-            Add Job
-          </Button>
+          <Grid container justify="flex-end">
+            <Button
+              onClick={RedirectAddJob}
+              style={{
+                justifyContent: "flex-end",
+                color: "white",
+                display: "flex",
+                flexFlow: "row",
+              }}
+            >
+              Add Job
+            </Button>
+          </Grid>
         </Box>
         <div className="ag-theme-alpine" style={{ height: "550px" }}>
           <div style={containerStyle}>

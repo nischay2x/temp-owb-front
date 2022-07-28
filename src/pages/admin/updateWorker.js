@@ -9,12 +9,13 @@ import {
 import React, { useEffect, useState } from "react";
 import Layout from "../../common/layout";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { localuser } from "../../config/constant";
 import { getViewWorkers, postUserJob, updateWorker } from "../../services/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, Typography } from "@mui/material";
 import { role, roles } from "../../jsons/roleJson";
+import AlertBox from "../../common/alert";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UpdateWorker() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const data = location.state.data;
@@ -53,28 +55,30 @@ export default function UpdateWorker() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    try {
-      const postableData = {
-        firstname,
-        lastname,
-        phone,
-        address,
-        role,
-      };
-      console.log("postablebgffggfg", postableData);
+    const postableData = {
+      firstname,
+      lastname,
+      phone,
+      address,
+      role,
+    };
+    console.log("postablebgffggfg", postableData);
 
-      updateWorker(data.id, token, postableData).then((res) => {
+    updateWorker(data.id, token, postableData)
+      .then((res) => {
         console.log("res", res);
-        alert(res.data.msg);
+        dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+        // alert(res.data.msg);
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
     <Layout>
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
+        <AlertBox />
         <Box
           sx={{
             bgcolor: "#4c79a1",
