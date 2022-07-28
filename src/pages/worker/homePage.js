@@ -65,13 +65,6 @@ export default function Home() {
 
   const ColumnDefs = [
     {
-      headerName: "Id",
-      field: "job_id",
-      minWidth: 100,
-      headerClass: classes.headercolor,
-    },
-
-    {
       headerName: "job Site",
       field: "job_site",
       minWidth: 130,
@@ -104,6 +97,11 @@ export default function Home() {
       field: "user_start_date",
       minWidth: 130,
       headerClass: classes.headercolor,
+      cellRenderer: (data) => {
+        return data.value
+          ? new Date(data.value).toLocaleDateString("en-GB")
+          : "";
+      },
     },
   ];
   const DefaultColDef = {

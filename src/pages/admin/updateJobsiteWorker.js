@@ -88,11 +88,11 @@ export default function UpdateJobsiteWorker() {
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
                     <TextField
-                      name="jobsite"
-                      placeholder="Enter jobsite"
-                      label="jobsite"
-                      value={jobSite}
-                      onChange={(e) => setJobsite(e.target.value)}
+                      name="Email"
+                      placeholder="Enter Email"
+                      label="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       variant="outlined"
                       margin="dense"
                       fullWidth
@@ -100,6 +100,7 @@ export default function UpdateJobsiteWorker() {
                       // InputLabelProps={{ shrink: true }}
                     />
                   </Grid>
+
                   <Grid item xs={4}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DatePicker
@@ -141,11 +142,11 @@ export default function UpdateJobsiteWorker() {
 
                   <Grid item xs={4}>
                     <TextField
-                      name="Email"
-                      placeholder="Enter Email"
-                      label="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      name="jobsite"
+                      placeholder="Enter jobsite"
+                      label="jobsite"
+                      value={jobSite}
+                      onChange={(e) => setJobsite(e.target.value)}
                       variant="outlined"
                       margin="dense"
                       fullWidth

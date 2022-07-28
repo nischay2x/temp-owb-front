@@ -105,7 +105,7 @@ export default function JobSites() {
     },
 
     {
-      headerName: "Task",
+      headerName: "Actions",
       minWidth: 450,
       headerClass: classes.headercolor,
       cellRendererFramework: (params) => (

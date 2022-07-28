@@ -96,7 +96,7 @@ export default function AddJob() {
       .then((res) => {
         if (res.data.status === true) {
           dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
-          setFormFields([]);
+          // setFormFields([]);
         } else {
           dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
         }

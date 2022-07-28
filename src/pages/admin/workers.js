@@ -189,7 +189,7 @@ export default function Workers() {
                 flexFlow: "row",
               }}
             >
-              Add User
+              Add Worker
             </Button>
           </Grid>
         </Box>

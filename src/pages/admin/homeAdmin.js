@@ -34,8 +34,15 @@ export default function HomeAdmin() {
   const [gridApi, setGridApi] = useState(null);
   const loginUser = useSelector((state) => state.userReducer);
   const localuser = JSON.parse(localStorage.getItem("user"));
-  const [startDate, setJobStartDate] = useState("");
-  const [endDate, setJobEndDate] = useState("");
+  var date = new Date();
+  var firstDay = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    1
+  ).toLocaleDateString();
+  let CurrentDate = new Date().toLocaleDateString();
+  const [startDate, setJobStartDate] = useState(firstDay);
+  const [endDate, setJobEndDate] = useState(CurrentDate);
   useEffect(() => {
     if (!loginUser.data) {
       setToken(localuser);
@@ -43,7 +50,7 @@ export default function HomeAdmin() {
       setToken(loginUser.data.token);
     }
     getHomeData();
-  }, [gridApi, token, startDate, endDate]);
+  }, [gridApi, token]);
 
   const onGridReady = (params) => {
     params.api.showLoadingOverlay();
@@ -82,6 +89,7 @@ export default function HomeAdmin() {
         gridApi.showLoadingOverlay();
         adminHome(token, startDate, endDate)
           .then((res) => {
+            console.log("eeeeeee", res.data);
             const formatRes = format(res.data);
             setColumnDefs(formatRes.colDef);
             if (!formatRes.rowData.length) {
@@ -114,10 +122,14 @@ export default function HomeAdmin() {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    getHomeData();
   };
-  const dateFormat = (newValue) => {
-    const date = new Date(newValue).toLocaleDateString();
-    console.log("formatdate-------", date);
+  const dateFormat = () => {
+    setJobStartDate(firstDay);
+    setJobEndDate("28/07/2022");
+    console.log(firstDay);
+    console.log(CurrentDate);
+    getHomeData();
   };
   return (
     <Layout>
@@ -132,6 +144,7 @@ export default function HomeAdmin() {
               <Grid item xs={4}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
+                    inputFormat="dd/MM/yyyy"
                     label="Job Start Date"
                     value={startDate}
                     onChange={(newValue) => {
@@ -151,6 +164,7 @@ export default function HomeAdmin() {
               <Grid item xs={4}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
+                    inputFormat="dd/MM/yyyy"
                     label="Job End Date"
                     value={endDate}
                     onChange={(newValue) => {
@@ -199,6 +213,7 @@ export default function HomeAdmin() {
                 columnDefs={ColumnDefs}
                 defaultColDef={DefaultColDef}
                 onGridReady={onGridReady}
+                enableRtl={true}
                 // pagination={true}
                 overlayLoadingTemplate={
                   '<span className="ag-overlay-loading-center">Please wait while your rows are loading...</span>'

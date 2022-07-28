@@ -1,4 +1,4 @@
-import { Box, Button } from "@material-ui/core";
+import { Box, Button, Grid } from "@material-ui/core";
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useMemo, useState } from "react";
 import "ag-grid-community/dist/styles/ag-grid.css";
@@ -9,7 +9,7 @@ import { getViewWorkers } from "../../services/api";
 import { useSelector } from "react-redux";
 import { localuser } from "../../config/constant";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Edit } from "@material-ui/icons";
+import { ArrowBack, Edit } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -172,6 +172,7 @@ export default function ViewWorker() {
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
         <Box
           sx={{
+            height: 70,
             bgcolor: "#4c79a1",
             color: "white",
             p: 2,
@@ -179,7 +180,14 @@ export default function ViewWorker() {
             borderTopRightRadius: "10px",
           }}
         >
-          Workers
+          <Grid container>
+            <Grid item xs={5}>
+              <ArrowBack variant="outlined" onClick={() => navigate(-1)} />
+            </Grid>
+            <Grid item xs={7}>
+              Workers
+            </Grid>
+          </Grid>
         </Box>
         <div className="ag-theme-alpine" style={{ height: "550px" }}>
           <div style={containerStyle}>

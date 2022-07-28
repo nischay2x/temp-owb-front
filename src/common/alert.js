@@ -25,22 +25,9 @@ const style = {
 };
 export default function AlertBox() {
   const alert = useSelector((state) => state.alert);
-  console.log("alertttttt", alert);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  {
-    /* const useConfirmDialogStore = create((set) => ({
-    message: '',
-    onSubmit: undefined,
-    close: () => set({ onSubmit: undefined }),
-  }));
-   const confirmDialog = (message, onSubmit) => {
-    useConfirmDialogStore.setState({
-      message,
-      onSubmit,
-    });
-  };*/
-  }
+
   useEffect(() => {
     setOpen(alert.show);
     /*if(alert.show) {
@@ -54,15 +41,11 @@ export default function AlertBox() {
     setOpen(false);
     dispatch({ type: "HIDE_ALERT", msg: "" });
   };
-  //const {  onSubmit, close } = useConfirmDialogStore();
-  const handleListItemClick = (value) => {};
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="sm" fullWidth>
       <Box sx={style}>
-        <DialogTitle>
-          <h2 className="title-h6">One Week Bath</h2>
-        </DialogTitle>
+        {/* <DialogTitle></DialogTitle> */}
         <Box position="absolute" top={0} right={0}>
           <IconButton onClick={() => handleClose()}>
             <Close />
