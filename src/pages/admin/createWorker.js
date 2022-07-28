@@ -5,9 +5,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createJob, createWorker, postUserJob } from "../../services/api";
 import { useNavigate } from "react-router-dom";
+import AlertBox from "../../common/alert";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateWorker() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [firstname, setFirstname] = useState(null);
@@ -52,10 +54,10 @@ export default function CreateWorker() {
     };
     console.log("postable data", postableData);
 
-    try {
-      createWorker(token, postableData).then((res) => {
-        if (res.data.status) {
-          alert(res.data.msg);
+    createWorker(token, postableData)
+      .then((res) => {
+        if (res.data.status === true) {
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
           setEmail("");
           setFirstname("");
           setLastname("");
@@ -63,16 +65,17 @@ export default function CreateWorker() {
           setRole("");
           setPassword("");
         } else {
-          alert("Some Error Occured");
+          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
         }
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
   return (
     <Layout>
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
+        <AlertBox />
         <Box
           sx={{
             bgcolor: "#4c79a1",
