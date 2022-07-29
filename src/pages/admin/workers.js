@@ -91,26 +91,6 @@ export default function Workers() {
   };
   const ColumnDefs = [
     {
-      headerName: "Email Id",
-      field: "email",
-      headerClass: classes.headercolor,
-    },
-    {
-      headerName: "First Name",
-      field: "firstname",
-      headerClass: classes.headercolor,
-    },
-    {
-      headerName: "Last Name",
-      field: "lastname",
-      headerClass: classes.headercolor,
-    },
-    {
-      headerName: "Address",
-      field: "address",
-      headerClass: classes.headercolor,
-    },
-    {
       headerName: "Actions",
       minWidth: 350,
       headerClass: classes.headercolor,
@@ -146,6 +126,27 @@ export default function Workers() {
         </div>
       ),
     },
+    {
+      headerName: "Email Id",
+      field: "email",
+      headerClass: classes.headercolor,
+    },
+    {
+      headerName: "First Name",
+      field: "firstname",
+      headerClass: classes.headercolor,
+    },
+    {
+      headerName: "Last Name",
+      field: "lastname",
+      headerClass: classes.headercolor,
+    },
+    {
+      headerName: "Address",
+      field: "address",
+      headerClass: classes.headercolor,
+    },
+   
   ];
   const DefaultColDef = {
     editable: false,

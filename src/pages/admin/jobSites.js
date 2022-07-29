@@ -77,6 +77,39 @@ export default function JobSites() {
   }, [gridApi, token]);
 
   const ColumnDefs = [
+   
+    {
+      headerName: "Actions",
+      minWidth: 450,
+      headerClass: classes.headercolor,
+      cellRendererFramework: (params) => (
+        <div style={{ flexDirection: "row" }}>
+           <Edit
+            style={{ width: 100 }}
+            variant="outlined"
+            color="primary"
+            onClick={() => redirectUpdateJob("updateJob", params.data)}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            className={classes.submit}
+            onClick={() => RedirectViewworker(params.data.id)}
+          >
+            View Workers
+          </Button>
+
+          <Button
+            onClick={() => RedirectAddworker(params.data.id)}
+            type="submit"
+            variant="contained"
+            className={classes.submit}
+          >
+            Add Workers
+          </Button>
+        </div>
+      ),
+    },
     {
       headerName: "Job Site",
       field: "job_site",
@@ -104,38 +137,7 @@ export default function JobSites() {
       },
     },
 
-    {
-      headerName: "Actions",
-      minWidth: 450,
-      headerClass: classes.headercolor,
-      cellRendererFramework: (params) => (
-        <div style={{ flexDirection: "row" }}>
-          <Edit
-            style={{ width: 100 }}
-            variant="outlined"
-            color="primary"
-            onClick={() => redirectUpdateJob("updateJob", params.data)}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            className={classes.submit}
-            onClick={() => RedirectViewworker(params.data.id)}
-          >
-            View Workers
-          </Button>
-
-          <Button
-            onClick={() => RedirectAddworker(params.data.id)}
-            type="submit"
-            variant="contained"
-            className={classes.submit}
-          >
-            Add Workers
-          </Button>
-        </div>
-      ),
-    },
+    
   ];
   const DefaultColDef = {
     minWidth: 100,

@@ -9,7 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { createJob, createWorker, postUserJob } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import AlertBox from "../../common/alert";
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 const useStyles = makeStyles((theme) => ({
   headercolor: {
     backgroundColor: "#4c79a1",
@@ -92,6 +95,7 @@ export default function CreateWorker() {
             <Grid item xs={4}>
               <TextField
                 name="Email"
+                className="form-feild"
                 placeholder="Enter Email"
                 label="Email"
                 variant="outlined"
@@ -105,6 +109,7 @@ export default function CreateWorker() {
 
               <TextField
                 name="Phone"
+                className="form-feild"
                 placeholder="Enter Phone"
                 label="Phone"
                 variant="outlined"
@@ -119,6 +124,7 @@ export default function CreateWorker() {
             <Grid item xs={4}>
               <TextField
                 name="FirstName"
+                className="form-feild"
                 placeholder="Enter FirstName"
                 label="First Name"
                 variant="outlined"
@@ -129,8 +135,29 @@ export default function CreateWorker() {
                   setFirstname(e.target.value);
                 }}
               />
-
-              <TextField
+              <FormControl fullWidth>
+                <InputLabel margin="dense">Role</InputLabel>
+                <Select
+                 // labelId="demo-simple-select-label"
+                 // id="demo-simple-select"
+                 sx={{ mt: 1 }}
+                 name="role"
+                 placeholder="Enter role"
+                 label="role"
+                 variant="outlined"
+                 margin="dense"
+                 fullWidth
+                  value={role}
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                  }}
+                >
+                  <MenuItem value="admin">Admin</MenuItem>
+                  <MenuItem value="user">User</MenuItem>
+                  <MenuItem value="worker">Worker</MenuItem>
+                </Select>
+              </FormControl>
+             {/**  <TextField
                 name="role"
                 placeholder="Enter role"
                 label="role"
@@ -141,11 +168,12 @@ export default function CreateWorker() {
                 onChange={(e) => {
                   setRole(e.target.value);
                 }}
-              />
+              />*/}
             </Grid>
             <Grid item xs={4}>
               <TextField
                 name="Lastname"
+                className="form-feild"
                 placeholder="Enter Last Name"
                 label="Last Name"
                 variant="outlined"
@@ -158,6 +186,7 @@ export default function CreateWorker() {
               />
               <TextField
                 name="Password"
+                className="form-feild"
                 placeholder="Enter Password"
                 label="Password"
                 variant="outlined"
