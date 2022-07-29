@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../actions/user";
 import AlertBox from "../common/alert";
+import BackgroundImage from '../images/oneweekbath.jpg';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,6 +24,17 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4c79a1",
     color: "white",
   },
+  paperContainer: {
+    backgroundImage: `url(${BackgroundImage})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: '100%',
+    height: '100vh',
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center',
+},
 }));
 
 export default function Login() {
@@ -56,6 +68,13 @@ export default function Login() {
   };
 
   return (
+    <Paper className={classes.paperContainer} >
+      <style jsx global>{`
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    `}</style>
     <Container component="main" maxWidth="xs">
       <AlertBox />
       <Box>
@@ -72,10 +91,7 @@ export default function Login() {
         >
           <Box
             component="img"
-            sx={{
-              height: 70,
-              width: 350,
-            }}
+            className="owb-logo"
             alt="The house from the offer."
             src="https://cloud.vastedge.com/apps/vastedge/r/327/files/static/v5/OWB-New-Bath-Logo.webp"
           />
@@ -127,5 +143,6 @@ export default function Login() {
         </Paper>
       </Box>
     </Container>
+    </Paper>
   );
 }

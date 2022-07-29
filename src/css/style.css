@@ -19,3 +19,24 @@
 .blue-button .MuiButton-label{
     color: white !important;
 }
+/*-------loginPage-------*/
+.owb-logo{
+    width: 100%;
+    height: auto;
+}
+.MuiPaper-root{
+    background-color: #f5f4f2  !important;
+}
+.mt-0{
+    margin-top: 0px;
+}
+.MuiFormControl-marginDense {
+    margin-top: 0px !important;
+}
+.form-feild{
+    margin-top: 8px !important;
+    margin-bottom: 4px;
+}
+.form-feild .MuiOutlinedInput-input {
+    padding: 18.5px 14px !important;
+  }
