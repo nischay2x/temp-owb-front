@@ -13,6 +13,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import PasswordField from "material-ui-password-field";
+
 const useStyles = makeStyles((theme) => ({
   headercolor: {
     backgroundColor: "#4c79a1",
@@ -38,6 +40,7 @@ export default function CreateWorker() {
   const classes = useStyles();
   const loginUser = useSelector((state) => state.userReducer);
   const localuser = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
     if (!loginUser.data) {
       setToken(localuser);
@@ -138,15 +141,15 @@ export default function CreateWorker() {
               <FormControl fullWidth>
                 <InputLabel margin="dense">Role</InputLabel>
                 <Select
-                 // labelId="demo-simple-select-label"
-                 // id="demo-simple-select"
-                 sx={{ mt: 1 }}
-                 name="role"
-                 placeholder="Enter role"
-                 label="role"
-                 variant="outlined"
-                 margin="dense"
-                 fullWidth
+                  // labelId="demo-simple-select-label"
+                  // id="demo-simple-select"
+                  sx={{ mt: 1 }}
+                  name="role"
+                  placeholder="Enter role"
+                  label="role"
+                  variant="outlined"
+                  margin="dense"
+                  fullWidth
                   value={role}
                   onChange={(e) => {
                     setRole(e.target.value);
@@ -157,7 +160,7 @@ export default function CreateWorker() {
                   <MenuItem value="worker">Worker</MenuItem>
                 </Select>
               </FormControl>
-             {/**  <TextField
+              {/**  <TextField
                 name="role"
                 placeholder="Enter role"
                 label="role"
@@ -184,8 +187,25 @@ export default function CreateWorker() {
                   setLastname(e.target.value);
                 }}
               />
-              <TextField
+              {/*  <TextField
                 name="Password"
+                type="password"
+                className="form-feild"
+                placeholder="Enter Password"
+                label="Password"
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+             
+              />*/}
+              <PasswordField
+                hintText="At least 5 characters"
+                floatingLabelText="Enter your password"
+                errorText="Your password is too short"
                 className="form-feild"
                 placeholder="Enter Password"
                 label="Password"
