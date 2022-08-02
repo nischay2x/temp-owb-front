@@ -5,12 +5,12 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../common/layout";
-import { useSelector } from "react-redux";
-import { localuser } from "../../config/constant";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getViewJobById } from "../../services/api";
+import { getViewJobById, updateWorkerJob } from "../../services/api";
 import { ArrowBack, ArrowBackIos, Edit } from "@material-ui/icons";
-import dayjs from "dayjs";
+import AlertBox from "../../common/alert";
+import UpdateJobFormDialog from "../../common/updateJobFormDialog";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function ViewJob() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -33,6 +34,7 @@ export default function ViewJob() {
   const [open, setOpen] = useState(false);
   const [gridApi, setGridApi] = useState(null);
   const [token, setToken] = useState("");
+  const [jobsData, setJobsData] = useState("");
   const loginUser = useSelector((state) => state.userReducer);
   const localuser = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
@@ -43,15 +45,15 @@ export default function ViewJob() {
     }
     getViewJobData();
   }, [gridApi, token]);
-  const redirectUpdateWorkerJob = (url, data, email) => {
-    console.log("datatta", data);
-    navigate(`/${url}`, {
-      state: {
-        data: data,
-        email: email,
-      },
-    });
-  };
+  // const redirectUpdateWorkerJob = (url, data, email) => {
+  //   console.log("datatta", data);
+  //   navigate(`/${url}`, {
+  //     state: {
+  //       data: data,
+  //       email: email,
+  //     },
+  //   });
+  // };
 
   const ColumnDefs = [
     {
@@ -64,12 +66,13 @@ export default function ViewJob() {
             style={{ width: 100 }}
             variant="outlined"
             color="primary"
-            onClick={() =>
-              redirectUpdateWorkerJob(
-                "updateWorkerJob",
-                params.data,
-                location.state.email
-              )
+            onClick={
+              () => handleUpdate(params.data, params.data.id)
+              // redirectUpdateWorkerJob(
+              //   "updateWorkerJob",
+              //   params.data,
+              //   location.state.email
+              // )
             }
           />
         </div>
@@ -128,6 +131,7 @@ export default function ViewJob() {
             } else {
               console.log("view jobs");
               gridApi.hideOverlay();
+              setJobsData(res.jobs);
             }
             params.successCallback(res.jobs, res.jobs.length);
           })
@@ -139,6 +143,11 @@ export default function ViewJob() {
 
     gridApi.setDatasource(dataSource);
   };
+  const handleUpdate = (oldData) => {
+    setJobsData(oldData);
+
+    handleClickOpen();
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -147,14 +156,41 @@ export default function ViewJob() {
   const handleClose = () => {
     setOpen(false);
   };
+  const onDialogChange = (e) => {
+    const { value, name } = e.target;
+    console.log(value, name);
+    setJobsData({ ...jobsData, [name]: value });
+  };
+
   const getRowStyle = (params) => {
     if (params.node.rowIndex % 2 === 1) {
       return { background: "#e5ecf2" };
     }
   };
+  const onSubmit = (data) => {
+    // const { id, user_id, job_site, job_id, ...updatedData} = data;
+    // console.log("upadted data----------------------", updatedData);
+    const postableData = {
+      startDate: data.start_date,
+      endDate: data.end_date,
+    };
+    console.log("postablebgffggfg", postableData);
+
+    updateWorkerJob(data.id, token, postableData)
+      .then((res) => {
+        console.log("res", res);
+        dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+        setOpen(false);
+        getViewJobData();
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
+      });
+  };
   return (
     <Layout>
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
+        <AlertBox />
         <Box
           sx={{
             height: 70,
@@ -174,7 +210,6 @@ export default function ViewJob() {
             </Grid>
           </Grid>
         </Box>
-
         <div className="ag-theme-alpine" style={{ height: "550px" }}>
           <div style={containerStyle}>
             <div style={gridStyle} className="ag-theme-alpine">
@@ -197,6 +232,14 @@ export default function ViewJob() {
             </div>
           </div>
         </div>
+        <UpdateJobFormDialog
+          open={open}
+          handleClose={handleClose}
+          jobsData={jobsData}
+          jobEmail={location.state.email}
+          onChange={onDialogChange}
+          onSubmit={onSubmit}
+        ></UpdateJobFormDialog>
       </Box>
     </Layout>
   );

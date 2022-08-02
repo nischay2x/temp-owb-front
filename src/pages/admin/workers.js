@@ -71,6 +71,7 @@ export default function Workers() {
   };
 
   const redirectJob = (url, userId, email) => {
+    console.log("iddddddddddddddd", userId);
     navigate(`/${url}`, {
       state: {
         userId: userId,

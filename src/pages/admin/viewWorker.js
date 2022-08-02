@@ -5,11 +5,12 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../common/layout";
-import { getViewWorkers } from "../../services/api";
-import { useSelector } from "react-redux";
-import { localuser } from "../../config/constant";
+import { getViewWorkers, updateWorkerJob } from "../../services/api";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowBack, Edit } from "@material-ui/icons";
+import AlertBox from "../../common/alert";
+import UpdateWorkerFormDialog from "../../common/updateWorkerFormDialog";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 export default function ViewWorker() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -32,7 +34,8 @@ export default function ViewWorker() {
   const [open, setOpen] = useState(false);
   const [gridApi, setGridApi] = useState(null);
   const [token, setToken] = useState("");
-  const [jobData, setJobData] = useState([]);
+  const [jobData, setJobData] = useState("");
+  const [workersData, setWorkersData] = useState("");
   const loginUser = useSelector((state) => state.userReducer);
   const localuser = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
@@ -44,15 +47,15 @@ export default function ViewWorker() {
     getUsers();
   }, [gridApi, token]);
 
-  const redirectUpdateJobsitesWorker = (url, data) => {
-    console.log("datattaworker", data);
-    navigate(`/${url}`, {
-      state: {
-        data: data,
-        jobdata: jobData,
-      },
-    });
-  };
+  // const redirectUpdateJobsitesWorker = (url, data) => {
+  //   console.log("datattaworker", data);
+  //   navigate(`/${url}`, {
+  //     state: {
+  //       data: data,
+  //       jobdata: jobData,
+  //     },
+  //   });
+  // };
 
   const ColumnDefs = [
     {
@@ -64,8 +67,9 @@ export default function ViewWorker() {
             style={{ width: 100 }}
             variant="outlined"
             color="primary"
-            onClick={() =>
-              redirectUpdateJobsitesWorker("updateJobsiteWorker", params.data)
+            onClick={
+              () => handleUpdate(params.data)
+              // redirectUpdateJobsitesWorker("updateJobsiteWorker", params.data)
             }
           />
         </div>
@@ -142,6 +146,7 @@ export default function ViewWorker() {
               console.log("view worker if----------------", res.data);
             } else {
               gridApi.hideOverlay();
+              console.log("jobssssssssssss", res.data);
               setJobData(res.data.job);
             }
             params.successCallback(res.data.persons, res.data.persons.length);
@@ -154,6 +159,11 @@ export default function ViewWorker() {
 
     gridApi.setDatasource(dataSource);
   };
+  const handleUpdate = (oldData) => {
+    setWorkersData(oldData);
+
+    handleClickOpen();
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -162,14 +172,38 @@ export default function ViewWorker() {
   const handleClose = () => {
     setOpen(false);
   };
+  const onDialogChange = (e) => {
+    const { value, name } = e.target;
+    console.log(value, name);
+    setWorkersData({ ...workersData, [name]: value });
+  };
   const getRowStyle = (params) => {
     if (params.node.rowIndex % 2 === 1) {
       return { background: "#e5ecf2" };
     }
   };
+  const onSubmit = (data) => {
+    console.log("datat---------", data);
+    const postableData = {
+      startDate: data.user_start_date,
+      endDate: data.user_end_date,
+    };
+
+    updateWorkerJob(data.user_job_id, token, postableData)
+      .then((res) => {
+        console.log("res", res);
+        dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+        setOpen(false);
+        getUsers();
+      })
+      .catch((err) => {
+        dispatch({ type: "SHOW_ALERT", msg: err.response.data.error });
+      });
+  };
   return (
     <Layout>
       <Box component="main" sx={{ flexGrow: 1, p: 5, mt: 5 }}>
+        <AlertBox />
         <Box
           sx={{
             height: 70,
@@ -211,6 +245,14 @@ export default function ViewWorker() {
             </div>
           </div>
         </div>
+        <UpdateWorkerFormDialog
+          open={open}
+          handleClose={handleClose}
+          workersData={workersData}
+          jobData={jobData}
+          onChange={onDialogChange}
+          onSubmit={onSubmit}
+        ></UpdateWorkerFormDialog>
       </Box>
     </Layout>
   );
