@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../actions/user";
 import AlertBox from "../common/alert";
+import BackgroundImage from "../images/oneweekbath.jpg";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -22,6 +23,19 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0, 2),
     backgroundColor: "#4c79a1",
     color: "white",
+  },
+  paperContainer: {
+    backgroundImage: `url(${BackgroundImage})`,
+    backgroundPosition: "center",
+    backgroundSize: "",
+    backgroundRepeat: "no-repeat",
+    width: "100%",
+    height: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "0px",
+    padding: "0px",
   },
 }));
 
@@ -56,76 +70,84 @@ export default function Login() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <AlertBox />
-      <Box>
-        <Paper
-          style={{
-            padding: 20,
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            verticalAlign: "middle",
-            boxShadow: "4px 4px 4px 4px rgba(0, 0, 0, 0.25)",
-            borderRadius: "20px",
-          }}
-        >
-          <Box
-            component="img"
-            sx={{
-              height: 70,
-              width: 350,
+    <Paper className={classes.paperContainer}>
+      <style jsx global>{`
+        body {
+          margin: 0px;
+          padding: 0px;
+        }
+      `}</style>
+      <Container component="main" maxWidth="xs">
+        <AlertBox />
+        <Box>
+          <Paper
+            style={{
+              padding: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              verticalAlign: "middle",
+              boxShadow: "4px 4px 4px 4px rgba(0, 0, 0, 0.25)",
+              borderRadius: "20px",
             }}
-            alt="The house from the offer."
-            src="https://cloud.vastedge.com/apps/vastedge/r/327/files/static/v5/OWB-New-Bath-Logo.webp"
-          />
-          <form onSubmit={HandleLogin}>
-            <TextField
-              variant="outlined"
-              type="email"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+          >
+            <Box
+              component="img"
+              sx={{
+                height: 70,
+                width: 350,
+              }}
+              alt="The house from the offer."
+              src="https://cloud.vastedge.com/apps/vastedge/r/327/files/static/v5/OWB-New-Bath-Logo.webp"
             />
-            <TextField
-              variant="outlined"
-              type="password"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <form onSubmit={HandleLogin}>
+              <TextField
+                variant="outlined"
+                type="email"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                variant="outlined"
+                type="password"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              className={classes.submit}
-              // onClick={HandleLogin}
-            >
-              Sign In
-            </Button>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              className={classes.submit}
-              onClick={RedirectResetPassword}
-            >
-              Reset Password
-            </Button>
-          </form>
-        </Paper>
-      </Box>
-    </Container>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                className={classes.submit}
+                // onClick={HandleLogin}
+              >
+                Sign In
+              </Button>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                className={classes.submit}
+                onClick={RedirectResetPassword}
+              >
+                Reset Password
+              </Button>
+            </form>
+          </Paper>
+        </Box>
+      </Container>
+    </Paper>
   );
 }
