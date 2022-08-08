@@ -78,6 +78,33 @@ export default function JobSites() {
 
   const ColumnDefs = [
     {
+      headerName: "Job Site",
+      field: "job_site",
+      headerClass: classes.headercolor,
+    },
+
+    {
+      headerName: "Job Start Date",
+      field: "start_date",
+      headerClass: classes.headercolor,
+      cellRenderer: (data) => {
+        return data.value
+          ? new Date(data.value).toLocaleDateString("en-GB")
+          : "";
+      },
+    },
+    {
+      headerName: "Job End Date",
+      field: "end_date",
+      headerClass: classes.headercolor,
+      cellRenderer: (data) => {
+        return data.value
+          ? new Date(data.value).toLocaleDateString("en-GB")
+          : "";
+      },
+    },
+
+    {
       headerName: "Actions",
       minWidth: 450,
       headerClass: classes.headercolor,
@@ -108,32 +135,6 @@ export default function JobSites() {
           </Button> */}
         </div>
       ),
-    },
-    {
-      headerName: "Job Site",
-      field: "job_site",
-      headerClass: classes.headercolor,
-    },
-
-    {
-      headerName: "Job Start Date",
-      field: "start_date",
-      headerClass: classes.headercolor,
-      cellRenderer: (data) => {
-        return data.value
-          ? new Date(data.value).toLocaleDateString("en-GB")
-          : "";
-      },
-    },
-    {
-      headerName: "Job End Date",
-      field: "end_date",
-      headerClass: classes.headercolor,
-      cellRenderer: (data) => {
-        return data.value
-          ? new Date(data.value).toLocaleDateString("en-GB")
-          : "";
-      },
     },
   ];
   const DefaultColDef = {
