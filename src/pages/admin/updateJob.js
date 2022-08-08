@@ -93,6 +93,7 @@ export default function UpdateJob() {
                       placeholder="Enter jobsite"
                       label="jobsite"
                       value={jobSite}
+                     // disabled
                       onChange={(e) => setJobsite(e.target.value)}
                       variant="outlined"
                       margin="dense"
