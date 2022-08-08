@@ -202,7 +202,9 @@ export default function HomeAdmin() {
             borderTopLeftRadius: "10px",
             borderTopRightRadius: "10px",
           }}
-        ></Box>
+        >
+          Jobs Report
+        </Box>
 
         <div className="ag-theme-alpine" style={{ height: "550px" }}>
           <div style={containerStyle}>

@@ -1,4 +1,12 @@
-import { Box, Button, Card, Grid, TextField } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Card,
+  Grid,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import Layout from "../../common/layout";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,6 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createJob, createWorker, postUserJob } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import AlertBox from "../../common/alert";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -35,6 +45,9 @@ export default function CreateWorker() {
   const classes = useStyles();
   const loginUser = useSelector((state) => state.userReducer);
   const localuser = JSON.parse(localStorage.getItem("user"));
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
   useEffect(() => {
     if (!loginUser.data) {
       setToken(localuser);
@@ -92,6 +105,7 @@ export default function CreateWorker() {
             <Grid item xs={4}>
               <TextField
                 name="Email"
+                className="form-feild"
                 placeholder="Enter Email"
                 label="Email"
                 variant="outlined"
@@ -105,6 +119,7 @@ export default function CreateWorker() {
 
               <TextField
                 name="Phone"
+                className="form-feild"
                 placeholder="Enter Phone"
                 label="Phone"
                 variant="outlined"
@@ -119,6 +134,7 @@ export default function CreateWorker() {
             <Grid item xs={4}>
               <TextField
                 name="FirstName"
+                className="form-feild"
                 placeholder="Enter FirstName"
                 label="First Name"
                 variant="outlined"
@@ -132,6 +148,7 @@ export default function CreateWorker() {
 
               <TextField
                 name="role"
+                className="form-feild"
                 placeholder="Enter role"
                 label="role"
                 variant="outlined"
@@ -146,6 +163,7 @@ export default function CreateWorker() {
             <Grid item xs={4}>
               <TextField
                 name="Lastname"
+                className="form-feild"
                 placeholder="Enter Last Name"
                 label="Last Name"
                 variant="outlined"
@@ -158,14 +176,30 @@ export default function CreateWorker() {
               />
               <TextField
                 name="Password"
+                className="form-feild"
                 placeholder="Enter Password"
                 label="Password"
+                type={showPassword ? "text" : "password"}
                 variant="outlined"
                 margin="dense"
                 fullWidth
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
+                }}
+                InputProps={{
+                  // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
               />
             </Grid>

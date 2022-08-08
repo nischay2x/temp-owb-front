@@ -71,7 +71,6 @@ export default function Workers() {
   };
 
   const redirectJob = (url, userId, email) => {
-    console.log("iddddddddddddddd", userId);
     navigate(`/${url}`, {
       state: {
         userId: userId,
@@ -92,6 +91,42 @@ export default function Workers() {
   };
   const ColumnDefs = [
     {
+      headerName: "Actions",
+      minWidth: 350,
+      headerClass: classes.headercolor,
+      cellRendererFramework: (params) => (
+        <div style={{ flexDirection: "row" }}>
+          <Edit
+            style={{ width: 100 }}
+            variant="outlined"
+            color="primary"
+            onClick={() => redirectUpdateWorker("updateWorker", params.data)}
+          />
+          {/* <Button
+            type="submit"
+            variant="contained"
+            className={classes.submit}
+            onClick={() =>
+              redirectJob("addJob", params.data.id, params.data.email)
+            }
+          >
+            Add Jobs
+          </Button> */}
+
+          <Button
+            type="submit"
+            variant="contained"
+            className={classes.submit}
+            onClick={() =>
+              redirectJob("viewJob", params.data.id, params.data.email)
+            }
+          >
+            View Jobs
+          </Button>
+        </div>
+      ),
+    },
+    {
       headerName: "Email Id",
       field: "email",
       headerClass: classes.headercolor,
@@ -110,42 +145,6 @@ export default function Workers() {
       headerName: "Address",
       field: "address",
       headerClass: classes.headercolor,
-    },
-    {
-      headerName: "Actions",
-      minWidth: 350,
-      headerClass: classes.headercolor,
-      cellRendererFramework: (params) => (
-        <div style={{ flexDirection: "row" }}>
-          <Edit
-            style={{ width: 100 }}
-            variant="outlined"
-            color="primary"
-            onClick={() => redirectUpdateWorker("updateWorker", params.data)}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            className={classes.submit}
-            onClick={() =>
-              redirectJob("addJob", params.data.id, params.data.email)
-            }
-          >
-            Add Jobs
-          </Button>
-
-          <Button
-            type="submit"
-            variant="contained"
-            className={classes.submit}
-            onClick={() =>
-              redirectJob("viewJob", params.data.id, params.data.email)
-            }
-          >
-            View Jobs
-          </Button>
-        </div>
-      ),
     },
   ];
   const DefaultColDef = {
@@ -190,7 +189,7 @@ export default function Workers() {
                 flexFlow: "row",
               }}
             >
-              Add Worker
+              Add New User
             </Button>
           </Grid>
         </Box>

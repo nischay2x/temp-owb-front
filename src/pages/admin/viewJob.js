@@ -11,6 +11,7 @@ import { getViewJobById, updateWorkerJob } from "../../services/api";
 import { ArrowBack, ArrowBackIos, Edit } from "@material-ui/icons";
 import AlertBox from "../../common/alert";
 import UpdateJobFormDialog from "../../common/updateJobFormDialog";
+import AddJobDialog from "../../common/addJobDialog";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -32,6 +33,7 @@ export default function ViewJob() {
   const [ColumnData, setColumnData] = useState([]);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [jobOpen, setJobOpen] = useState(false);
   const [gridApi, setGridApi] = useState(null);
   const [token, setToken] = useState("");
   const [jobsData, setJobsData] = useState("");
@@ -119,8 +121,6 @@ export default function ViewJob() {
     }, 500);
   };
   const getViewJobData = async () => {
-    const email = location.state.email;
-    console.log("email=============", email);
     const dataSource = {
       getRows: (params) => {
         gridApi.showLoadingOverlay();
@@ -155,6 +155,14 @@ export default function ViewJob() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleJobOpen = () => {
+    console.log("opennnnnnn");
+    setJobOpen(true);
+  };
+
+  const handleJobClose = () => {
+    setJobOpen(false);
   };
   const onDialogChange = (e) => {
     const { value, name } = e.target;
@@ -193,6 +201,29 @@ export default function ViewJob() {
         <AlertBox />
         <Box
           sx={{
+            bgcolor: "#4c79a1",
+            color: "white",
+            p: 2,
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+          }}
+        >
+          <Grid container justify="flex-end">
+            <Button
+              onClick={handleJobOpen}
+              style={{
+                justifyContent: "flex-end",
+                color: "white",
+                display: "flex",
+                flexFlow: "row",
+              }}
+            >
+              Add Job
+            </Button>
+          </Grid>
+        </Box>
+        {/* <Box
+          sx={{
             height: 70,
             bgcolor: "#4c79a1",
             color: "white",
@@ -209,7 +240,7 @@ export default function ViewJob() {
               Workers
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
         <div className="ag-theme-alpine" style={{ height: "550px" }}>
           <div style={containerStyle}>
             <div style={gridStyle} className="ag-theme-alpine">
@@ -232,6 +263,13 @@ export default function ViewJob() {
             </div>
           </div>
         </div>
+        <AddJobDialog
+          open={jobOpen}
+          handleClose={handleJobClose}
+          emailId={location.state.email}
+          userId={location.state.userId}
+          refreshApi={getViewJobData}
+        ></AddJobDialog>
         <UpdateJobFormDialog
           open={open}
           handleClose={handleClose}

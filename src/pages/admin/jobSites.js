@@ -78,6 +78,38 @@ export default function JobSites() {
 
   const ColumnDefs = [
     {
+      headerName: "Actions",
+      minWidth: 450,
+      headerClass: classes.headercolor,
+      cellRendererFramework: (params) => (
+        <div style={{ flexDirection: "row" }}>
+          <Edit
+            style={{ width: 100 }}
+            variant="outlined"
+            color="primary"
+            onClick={() => redirectUpdateJob("updateJob", params.data)}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            className={classes.submit}
+            onClick={() => RedirectViewworker(params.data.id)}
+          >
+            View Workers
+          </Button>
+
+          {/* <Button
+            onClick={() => RedirectAddworker(params.data.id)}
+            type="submit"
+            variant="contained"
+            className={classes.submit}
+          >
+            Add Workers
+          </Button> */}
+        </div>
+      ),
+    },
+    {
       headerName: "Job Site",
       field: "job_site",
       headerClass: classes.headercolor,
@@ -102,39 +134,6 @@ export default function JobSites() {
           ? new Date(data.value).toLocaleDateString("en-GB")
           : "";
       },
-    },
-
-    {
-      headerName: "Actions",
-      minWidth: 450,
-      headerClass: classes.headercolor,
-      cellRendererFramework: (params) => (
-        <div style={{ flexDirection: "row" }}>
-          <Edit
-            style={{ width: 100 }}
-            variant="outlined"
-            color="primary"
-            onClick={() => redirectUpdateJob("updateJob", params.data)}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            className={classes.submit}
-            onClick={() => RedirectViewworker(params.data.id)}
-          >
-            View Workers
-          </Button>
-
-          <Button
-            onClick={() => RedirectAddworker(params.data.id)}
-            type="submit"
-            variant="contained"
-            className={classes.submit}
-          >
-            Add Workers
-          </Button>
-        </div>
-      ),
     },
   ];
   const DefaultColDef = {
@@ -206,7 +205,7 @@ export default function JobSites() {
                 flexFlow: "row",
               }}
             >
-              Add Job
+              Add New JobSite
             </Button>
           </Grid>
         </Box>

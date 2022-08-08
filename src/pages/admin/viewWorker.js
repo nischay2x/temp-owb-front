@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ArrowBack, Edit } from "@material-ui/icons";
 import AlertBox from "../../common/alert";
 import UpdateWorkerFormDialog from "../../common/updateWorkerFormDialog";
+import AddWorkerDialog from "../../common/addWorkerDialog";
 
 const useStyles = makeStyles((theme) => ({
   headercolor: {
@@ -32,6 +33,7 @@ export default function ViewWorker() {
   const [ColumnData, setColumnData] = useState([]);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [workerOpen, setWorkerOpen] = useState(false);
   const [gridApi, setGridApi] = useState(null);
   const [token, setToken] = useState("");
   const [jobData, setJobData] = useState("");
@@ -172,6 +174,13 @@ export default function ViewWorker() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleWorkerOpen = () => {
+    setWorkerOpen(true);
+  };
+
+  const WorkerHandleClose = () => {
+    setWorkerOpen(false);
+  };
   const onDialogChange = (e) => {
     const { value, name } = e.target;
     console.log(value, name);
@@ -206,6 +215,29 @@ export default function ViewWorker() {
         <AlertBox />
         <Box
           sx={{
+            bgcolor: "#4c79a1",
+            color: "white",
+            p: 2,
+            borderTopLeftRadius: "10px",
+            borderTopRightRadius: "10px",
+          }}
+        >
+          <Grid container justify="flex-end">
+            <Button
+              onClick={handleWorkerOpen}
+              style={{
+                justifyContent: "flex-end",
+                color: "white",
+                display: "flex",
+                flexFlow: "row",
+              }}
+            >
+              Add Worker
+            </Button>
+          </Grid>
+        </Box>
+        {/* <Box
+          sx={{
             height: 70,
             bgcolor: "#4c79a1",
             color: "white",
@@ -222,7 +254,7 @@ export default function ViewWorker() {
               Workers
             </Grid>
           </Grid>
-        </Box>
+        </Box> */}
         <div className="ag-theme-alpine" style={{ height: "550px" }}>
           <div style={containerStyle}>
             <div style={gridStyle} className="ag-theme-alpine">
@@ -245,6 +277,12 @@ export default function ViewWorker() {
             </div>
           </div>
         </div>
+        <AddWorkerDialog
+          open={workerOpen}
+          handleClose={WorkerHandleClose}
+          id={location.state.id}
+          refreshApi={getUsers}
+        ></AddWorkerDialog>
         <UpdateWorkerFormDialog
           open={open}
           handleClose={handleClose}
