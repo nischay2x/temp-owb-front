@@ -208,7 +208,8 @@ export default function ViewJob() {
             borderTopRightRadius: "10px",
           }}
         >
-          <Grid container justify="flex-end">
+          <Grid container justify="space-between">
+            <ArrowBack variant="outlined" onClick={() => navigate(-1)} />
             <Button
               onClick={handleJobOpen}
               style={{
@@ -222,25 +223,6 @@ export default function ViewJob() {
             </Button>
           </Grid>
         </Box>
-        {/* <Box
-          sx={{
-            height: 70,
-            bgcolor: "#4c79a1",
-            color: "white",
-            p: 2,
-            borderTopLeftRadius: "10px",
-            borderTopRightRadius: "10px",
-          }}
-        >
-          <Grid container>
-            <Grid item xs={5}>
-              <ArrowBack variant="outlined" onClick={() => navigate(-1)} />
-            </Grid>
-            <Grid item xs={7}>
-              Workers
-            </Grid>
-          </Grid>
-        </Box> */}
         <div className="ag-theme-alpine" style={{ height: "550px" }}>
           <div style={containerStyle}>
             <div style={gridStyle} className="ag-theme-alpine">

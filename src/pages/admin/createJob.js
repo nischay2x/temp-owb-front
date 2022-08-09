@@ -52,10 +52,11 @@ export default function CreateJob() {
     createJob(token, postableData)
       .then((res) => {
         if (res.data.status) {
-          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
           setJobSite("");
           setJobEndDate("");
           setJobStartDate("");
+          // dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
+          navigate(-1);
         } else {
           dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
         }

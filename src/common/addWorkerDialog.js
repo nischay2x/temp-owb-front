@@ -49,10 +49,17 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
     id: "",
   });
   const [userList, setUsersList] = useState([]);
+  const [workerId, setWorkerId] = useState(-1);
   const [selectedEmailData, setselectedEmailData] = useState([]);
   const classes = useStyles();
   const [token, setToken] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(-1);
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [startDate, setUserStartDate] = useState();
+  const [endDate, setUserEndDate] = useState();
   const [formFields, setFormFields] = useState([]);
   const loginUser = useSelector((state) => state.userReducer);
   const location = useLocation();
@@ -95,12 +102,20 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const postableData = formFields.map((f) => ({
-      startDate: f.userStartDate || getJobData.start_date,
-      endDate: f.userEndDate || getJobData.end_date,
-      jobId: getJobData.id,
-      userId: f.id,
-    }));
+    // const postableData = formFields.map((f) => ({
+    //   startDate: f.userStartDate || getJobData.start_date,
+    //   endDate: f.userEndDate || getJobData.end_date,
+    //   jobId: getJobData.id,
+    //   userId: f.id,
+    // }));
+    const postableData = [
+      {
+        startDate: startDate || getJobData.start_date,
+        endDate: endDate || getJobData.end_date,
+        jobId: getJobData.id,
+        userId: workerId,
+      },
+    ];
     console.log(postableData);
 
     postUserJob(token, postableData)
@@ -159,7 +174,7 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
             rowspacing={5}
             columnspacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            <Grid item xs={4}>
+            {/* <Grid item xs={4}>
               <TextField
                 name="JobSite"
                 placeholder="Enter Jobsite"
@@ -209,8 +224,8 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
                   )}
                 />
               </LocalizationProvider>
-            </Grid>
-            <Grid item xs={12}>
+            </Grid> */}
+            {/* <Grid item xs={12}>
               <Button
                 type="submit"
                 variant="contained"
@@ -223,170 +238,189 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
               >
                 Add Worker
               </Button>
-            </Grid>
+            </Grid> */}
             <form onSubmit={onSubmit}>
-              {formFields?.map((f, index) => {
-                return (
-                  <Box key={index}>
-                    <Grid
-                      container
-                      rowspacing={1}
-                      columnspacing={{ xs: 1, sm: 2, md: 3 }}
-                    >
-                      <Grid item xs={4}>
-                        <FormControl fullWidth sx={{ mt: 1, mb: 1 }}>
-                          <InputLabel
-                            id="demo-simple-select-label"
-                            shrink={true}
-                          >
-                            Email
-                          </InputLabel>
-                          <Select
-                            notched={true}
-                            labelId="demo-simple-select-label"
-                            label="Email"
-                            displayEmpty
+              {/* {formFields?.map((f, index) => {
+                return ( */}
+              <Box /* key={index}*/>
+                <Grid
+                  container
+                  rowspacing={1}
+                  columnspacing={{ xs: 1, sm: 2, md: 3 }}
+                >
+                  <Grid item xs={4}>
+                    <FormControl fullWidth sx={{ mt: 1, mb: 1 }}>
+                      <InputLabel id="demo-simple-select-label" shrink={true}>
+                        Email
+                      </InputLabel>
+                      <Select
+                        notched={true}
+                        labelId="demo-simple-select-label"
+                        label="Email"
+                        displayEmpty
+                        variant="outlined"
+                        margin="dense"
+                        fullWidth
+                        value={workerId}
+                        // value={f.email >= 0 ? f.email : -1}
+                        onChange={(e) => {
+                          const idx = e.target.value;
+                          //   const userData = userList[idx];
+                          const userData = userList.find((data) => {
+                            return e.target.value === data.id;
+                          });
+
+                          setWorkerId(userData.id);
+                          setEmail(userData.email);
+                          setFirstName(userData.firstname);
+                          setLastname(userData.lastname);
+                          setPhone(userData.phone);
+                          setAddress(userData.address);
+                          setUserStartDate();
+                          setUserEndDate();
+
+                          //   setFormFields((prev) =>
+                          //     prev.map((p, i) => {
+                          //       if (i === index)
+                          //         return {
+                          //           userStartDate: "",
+                          //           userEndDate: "",
+                          //           ...userData,
+                          //           email: idx,
+                          //         };
+                          //       else return p;
+                          //     })
+                          //   );
+                        }}
+                      >
+                        <MenuItem value={-1}>Choose Email</MenuItem>
+                        {userList.map((data, key) => (
+                          <MenuItem key={key} value={data.id}>
+                            {data.email}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      name="FirstName"
+                      placeholder="Enter FirstName"
+                      //   value={f.firstname}
+                      value={firstname}
+                      label="First Name"
+                      variant="outlined"
+                      margin="dense"
+                      fullWidth
+                      disabled={true}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      name="LastName"
+                      placeholder="Enter Last Name"
+                      label="Last Name"
+                      //   value={f.lastname}
+                      value={lastname}
+                      variant="outlined"
+                      margin="dense"
+                      fullWidth
+                      disabled={true}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      name="Phone"
+                      placeholder="Enter Phone"
+                      //   value={f.phone}
+                      value={phone}
+                      label="Phone"
+                      variant="outlined"
+                      margin="dense"
+                      fullWidth
+                      disabled={true}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <TextField
+                      name="Address"
+                      placeholder="Enter Address"
+                      //   value={f.address}
+                      value={address}
+                      label="Address"
+                      variant="outlined"
+                      margin="dense"
+                      fullWidth
+                      disabled={true}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        name="userStartDate"
+                        label="User Start Date"
+                        onChange={(newValue) => {
+                          setUserStartDate(newValue);
+                          //   setFormFields((prev) =>
+                          //     prev.map((p, i) => {
+                          //       if (i === index)
+                          //         return {
+                          //           ...p,
+                          //           userStartDate: newValue,
+                          //         };
+                          //       else return p;
+                          //     })
+                          //   );
+                        }}
+                        value={startDate || getJobData.start_date}
+                        // value={f.userStartDate || getJobData.start_date}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
                             variant="outlined"
                             margin="dense"
                             fullWidth
-                            value={f.email >= 0 ? f.email : -1}
-                            onChange={(e) => {
-                              const idx = e.target.value;
-                              const userData = userList[idx];
-                              setFormFields((prev) =>
-                                prev.map((p, i) => {
-                                  if (i === index)
-                                    return {
-                                      userStartDate: "",
-                                      userEndDate: "",
-                                      ...userData,
-                                      email: idx,
-                                    };
-                                  else return p;
-                                })
-                              );
-                            }}
-                          >
-                            <MenuItem value={-1}>Choose Email</MenuItem>
-                            {userList.map((data, key) => (
-                              <MenuItem key={key} value={key}>
-                                {data.email}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          name="FirstName"
-                          placeholder="Enter FirstName"
-                          value={f.firstname}
-                          label="First Name"
-                          variant="outlined"
-                          margin="dense"
-                          fullWidth
-                          disabled={true}
-                          InputLabelProps={{ shrink: true }}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          name="LastName"
-                          placeholder="Enter Last Name"
-                          label="Last Name"
-                          value={f.lastname}
-                          variant="outlined"
-                          margin="dense"
-                          fullWidth
-                          disabled={true}
-                          InputLabelProps={{ shrink: true }}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          name="Phone"
-                          placeholder="Enter Phone"
-                          value={f.phone}
-                          label="Phone"
-                          variant="outlined"
-                          margin="dense"
-                          fullWidth
-                          disabled={true}
-                          InputLabelProps={{ shrink: true }}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextField
-                          name="Address"
-                          placeholder="Enter Address"
-                          value={f.address}
-                          label="Address"
-                          variant="outlined"
-                          margin="dense"
-                          fullWidth
-                          disabled={true}
-                          InputLabelProps={{ shrink: true }}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DatePicker
-                            name="userStartDate"
-                            label="User Start Date"
-                            onChange={(newValue) => {
-                              setFormFields((prev) =>
-                                prev.map((p, i) => {
-                                  if (i === index)
-                                    return {
-                                      ...p,
-                                      userStartDate: newValue,
-                                    };
-                                  else return p;
-                                })
-                              );
-                            }}
-                            value={f.userStartDate || getJobData.start_date}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                variant="outlined"
-                                margin="dense"
-                                fullWidth
-                              />
-                            )}
                           />
-                        </LocalizationProvider>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DatePicker
-                            name="userEndDate"
-                            label="User End Date"
-                            onChange={(newValue) => {
-                              setFormFields((prev) =>
-                                prev.map((p, i) => {
-                                  if (i === index)
-                                    return {
-                                      ...p,
-                                      userEndDate: newValue,
-                                    };
-                                  else return p;
-                                })
-                              );
-                            }}
-                            value={f.userEndDate || getJobData.end_date}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                variant="outlined"
-                                margin="dense"
-                                fullWidth
-                              />
-                            )}
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        name="userEndDate"
+                        label="User End Date"
+                        onChange={(newValue) => {
+                          setUserEndDate(newValue);
+                          //   setFormFields((prev) =>
+                          //     prev.map((p, i) => {
+                          //       if (i === index)
+                          //         return {
+                          //           ...p,
+                          //           userEndDate: newValue,
+                          //         };
+                          //       else return p;
+                          //     })
+                          //   );
+                        }}
+                        value={endDate || getJobData.end_date}
+                        // value={f.userEndDate || getJobData.end_date}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            margin="dense"
+                            fullWidth
                           />
-                        </LocalizationProvider>
-                      </Grid>
-                      <Grid container justify="flex-end" item md={8} xs={8}>
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  {/* <Grid container justify="flex-end" item md={8} xs={8}>
                         <RemoveCircle
                           style={{
                             marginTop: "15px",
@@ -396,11 +430,11 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
                         >
                           Remove
                         </RemoveCircle>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                );
-              })}
+                      </Grid> */}
+                </Grid>
+              </Box>
+              {/* //     );
+            //   })} */}
             </form>
           </Grid>
         </Box>

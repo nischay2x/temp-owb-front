@@ -36,11 +36,12 @@ export default function CreateWorker() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [firstname, setFirstname] = useState(null);
-  const [lastname, setLastname] = useState(null);
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState(null);
-  const [role, setRole] = useState(null);
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("");
+  const [address, setAddress] = useState("");
   const [token, setToken] = useState("");
   const classes = useStyles();
   const loginUser = useSelector((state) => state.userReducer);
@@ -64,19 +65,21 @@ export default function CreateWorker() {
       password: password,
       phone: phone,
       role: role,
+      address: address,
     };
     console.log("postable data", postableData);
 
     createWorker(token, postableData)
       .then((res) => {
         if (res.data.status === true) {
-          dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
           setEmail("");
           setFirstname("");
           setLastname("");
           setPhone("");
           setRole("");
           setPassword("");
+          navigate(-1);
+          // dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
         } else {
           dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
         }
@@ -98,7 +101,7 @@ export default function CreateWorker() {
             borderTopRightRadius: "10px",
           }}
         >
-          Add Details
+          Add details
         </Box>
         <Card style={{ padding: 10 }}>
           <Grid container spacing={5}>
@@ -128,6 +131,34 @@ export default function CreateWorker() {
                 value={phone}
                 onChange={(e) => {
                   setPhone(e.target.value);
+                }}
+              />
+              <TextField
+                name="Password"
+                className="form-feild"
+                placeholder="Enter Password"
+                label="Password"
+                type={showPassword ? "text" : "password"}
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                InputProps={{
+                  // <-- This is where the toggle button is added.
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
                 }}
               />
             </Grid>
@@ -175,31 +206,16 @@ export default function CreateWorker() {
                 }}
               />
               <TextField
-                name="Password"
+                name="Address"
                 className="form-feild"
-                placeholder="Enter Password"
-                label="Password"
-                type={showPassword ? "text" : "password"}
+                placeholder="Enter Address"
+                label="Address"
                 variant="outlined"
                 margin="dense"
                 fullWidth
-                value={password}
+                value={address}
                 onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                InputProps={{
-                  // <-- This is where the toggle button is added.
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
+                  setAddress(e.target.value);
                 }}
               />
             </Grid>

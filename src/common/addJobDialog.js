@@ -61,8 +61,10 @@ export default function AddJobDialog({
     id: "",
   });
   const [jobsList, setJobsList] = useState([]);
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [jobsite, setJobsite] = useState("");
+  const [jobId, setJobId] = useState(-1);
   const [selectedEmailData, setselectedEmailData] = useState([]);
   const classes = useStyles();
   const [token, setToken] = useState("");
@@ -100,12 +102,20 @@ export default function AddJobDialog({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const postableData = formFields.map((f) => ({
-      startDate: f.userStartDate || f.start_date,
-      endDate: f.userEndDate || f.end_date,
-      jobId: f.id,
-      userId: userId,
-    }));
+    // const postableData = formFields.map((f) => ({
+    //   startDate: f.userStartDate || f.start_date,
+    //   endDate: f.userEndDate || f.end_date,
+    //   jobId: f.id,
+    //   userId: userId,
+    // }));
+    const postableData = [
+      {
+        startDate: startDate,
+        endDate: endDate,
+        jobId: jobId,
+        userId: userId,
+      },
+    ];
     console.log("postable data", postableData);
 
     postUserJob(token, postableData)
@@ -114,6 +124,9 @@ export default function AddJobDialog({
           dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
           handleClose();
           refreshApi();
+          setStartDate();
+          setEndDate();
+          setJobId(-1);
           // setFormFields([]);
         } else {
           dispatch({ type: "SHOW_ALERT", msg: res.data.msg });
@@ -124,17 +137,17 @@ export default function AddJobDialog({
       });
   };
 
-  const addFields = () => {
-    let object = {
-      StartDate: "",
-      EndDate: "",
-      id: "",
-    };
-    setFormFields((prev) => [...prev, object]);
-  };
-  const removeFields = (index) => {
-    setFormFields((prev) => prev.filter((_, i) => i !== index));
-  };
+  //   const addFields = () => {
+  //     let object = {
+  //       StartDate: "",
+  //       EndDate: "",
+  //       id: "",
+  //     };
+  //     setFormFields((prev) => [...prev, object]);
+  //   };
+  //   const removeFields = (index) => {
+  //     setFormFields((prev) => prev.filter((_, i) => i !== index));
+  //   };
   const submit = (e) => {
     e.preventDefault();
     console.log(formFields);
@@ -180,7 +193,7 @@ export default function AddJobDialog({
               />
             </Grid>
 
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Button
                 type="submit"
                 variant="contained"
@@ -193,131 +206,136 @@ export default function AddJobDialog({
               >
                 Add job
               </Button>
-            </Grid>
+            </Grid> */}
             <form onSubmit={onSubmit} style={{ width: "100%" }}>
-              {formFields?.map((f, index) => {
-                return (
-                  <Box key={index}>
-                    <Grid
-                      container
-                      rowspacing={1}
-                      columnspacing={{ xs: 1, sm: 2, md: 3 }}
-                      item
-                      xs={12}
-                      className={classes.gridpadding}
-                    >
-                      <Grid item xs={4}>
-                        <FormControl fullWidth sx={{ mt: 1, mb: 1 }}>
-                          <InputLabel
-                            id="demo-simple-select-label"
-                            shrink={true}
-                          >
-                            Job site
-                          </InputLabel>
-                          <Select
-                            notched={true}
-                            labelId="demo-simple-select-label"
-                            label="Jobsite"
-                            displayEmpty
+              {/* {formFields?.map((f, index) => {
+                return ( */}
+              <Box /* key={index} */>
+                <Grid
+                  container
+                  rowspacing={1}
+                  columnspacing={{ xs: 1, sm: 2, md: 3 }}
+                  item
+                  xs={12}
+                  className={classes.gridpadding}
+                >
+                  <Grid item xs={4}>
+                    <FormControl fullWidth sx={{ mt: 1, mb: 1 }}>
+                      <InputLabel id="demo-simple-select-label" shrink={true}>
+                        Job site
+                      </InputLabel>
+                      <Select
+                        notched={true}
+                        labelId="demo-simple-select-label"
+                        label="Jobsite"
+                        displayEmpty
+                        variant="outlined"
+                        margin="dense"
+                        fullWidth
+                        // value={f.job_site >= 0 ? f.job_site : -1}
+                        value={jobId}
+                        onChange={(e) => {
+                          const idx = e.target.value;
+
+                          console.log("idx---", idx);
+                          const jobData = jobsList.find((data) => {
+                            return e.target.value === data.id;
+                          });
+                          setJobsite(jobData.job_site);
+                          setStartDate(jobData.start_date);
+                          setEndDate(jobData.start_date);
+                          setJobId(jobData.id);
+                          console.log("joblist data---", jobData);
+
+                          //   setFormFields((prev) =>
+                          //     prev.map((p, i) => {
+                          //       console.log("prev==", p, "index==", i);
+                          //       if (i === index)
+                          //         return {
+                          //           StartDate: "",
+                          //           EndDate: "",
+                          //           ...jobData,
+                          //           job_site: idx,
+                          //         };
+                          //       else return p;
+                          //     })
+                          //   );
+                        }}
+                      >
+                        <MenuItem value={-1}>Choose Jobsite</MenuItem>
+                        {jobsList.map((data, key) => (
+                          <MenuItem key={key} value={data.id}>
+                            {data.job_site}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={4}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        name="userStartDate"
+                        label="Job Start Date"
+                        onChange={(newValue) => {
+                          setStartDate(newValue);
+
+                          //     setFormFields((prev) =>
+                          //     prev.map((p, i) => {
+                          //       if (i === index)
+                          //         return {
+                          //           ...p,
+                          //           userStartDate: newValue,
+                          //         };
+                          //       else return p;
+                          //     })
+                          //   );
+                        }}
+                        // value={f.userStartDate || f.start_date}
+                        value={startDate}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
                             variant="outlined"
                             margin="dense"
                             fullWidth
-                            value={f.job_site >= 0 ? f.job_site : -1}
-                            onChange={(e) => {
-                              const idx = e.target.value;
-                              console.log("idx---", idx);
-                              const jobData = jobsList[idx];
-
-                              console.log(
-                                "joblist data---",
-                                jobData,
-                                formFields
-                              );
-
-                              setFormFields((prev) =>
-                                prev.map((p, i) => {
-                                  console.log("prev==", p, "index==", i);
-                                  if (i === index)
-                                    return {
-                                      StartDate: "",
-                                      EndDate: "",
-                                      ...jobData,
-                                      job_site: idx,
-                                    };
-                                  else return p;
-                                })
-                              );
-                            }}
-                          >
-                            <MenuItem value={-1}>Choose Jobsite</MenuItem>
-                            {jobsList.map((data, key) => (
-                              <MenuItem key={key} value={key}>
-                                {data.job_site}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </Grid>
-
-                      <Grid item xs={4}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DatePicker
-                            name="userStartDate"
-                            label="Job Start Date"
-                            onChange={(newValue) => {
-                              setFormFields((prev) =>
-                                prev.map((p, i) => {
-                                  if (i === index)
-                                    return {
-                                      ...p,
-                                      userStartDate: newValue,
-                                    };
-                                  else return p;
-                                })
-                              );
-                            }}
-                            value={f.userStartDate || f.start_date}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                variant="outlined"
-                                margin="dense"
-                                fullWidth
-                              />
-                            )}
                           />
-                        </LocalizationProvider>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DatePicker
-                            name="userEndDate"
-                            label="Job End Date"
-                            onChange={(newValue) => {
-                              setFormFields((prev) =>
-                                prev.map((p, i) => {
-                                  if (i === index)
-                                    return {
-                                      ...p,
-                                      userEndDate: newValue,
-                                    };
-                                  else return p;
-                                })
-                              );
-                            }}
-                            value={f.userEndDate || f.end_date}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                variant="outlined"
-                                margin="dense"
-                                fullWidth
-                              />
-                            )}
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DatePicker
+                        name="userEndDate"
+                        label="Job End Date"
+                        onChange={(newValue) => {
+                          setEndDate(newValue);
+                          //   setFormFields((prev) =>
+                          //     prev.map((p, i) => {
+                          //       if (i === index)
+                          //         return {
+                          //           ...p,
+                          //           userEndDate: newValue,
+                          //         };
+                          //       else return p;
+                          //     })
+                          //   );
+                        }}
+                        // value={f.userEndDate || f.end_date}
+                        value={endDate}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            margin="dense"
+                            fullWidth
                           />
-                        </LocalizationProvider>
-                      </Grid>
-                      {/* <Grid item xs={4}>
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  {/* <Grid item xs={4}>
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               label="Job Start Date"
@@ -335,7 +353,7 @@ export default function AddJobDialog({
                             />
                           </LocalizationProvider>
                         </Grid> */}
-                      {/* <Grid item xs={4}>
+                  {/* <Grid item xs={4}>
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker
                               label="Job End Date"
@@ -353,7 +371,7 @@ export default function AddJobDialog({
                             />
                           </LocalizationProvider>
                         </Grid> */}
-                      <Grid item xs={1} container justify="flex-end">
+                  {/* <Grid item xs={1} container justify="flex-end">
                         <RemoveCircle
                           style={{
                             marginTop: "15px",
@@ -363,11 +381,11 @@ export default function AddJobDialog({
                         >
                           Remove
                         </RemoveCircle>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                );
-              })}
+                      </Grid> */}
+                </Grid>
+              </Box>
+              {/* //     );
+            //   })} */}
             </form>
           </Grid>
         </Box>

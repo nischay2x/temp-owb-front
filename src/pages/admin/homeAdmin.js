@@ -59,10 +59,10 @@ export default function HomeAdmin() {
     }, 500);
   };
   const format = ({ header, rows }) => {
-    let colDef = [{ headerName: "Date", field: "date" }];
+    let colDef = [{ headerName: "Date", field: "date", resizable: true }];
     console.log("dattatattttt");
     header.names.forEach((n, i) => {
-      colDef.push({ headerName: n, field: n });
+      colDef.push({ headerName: n, field: n, resizable: true });
     });
 
     const nameIndex = header.names.map((n) => n);
@@ -89,7 +89,7 @@ export default function HomeAdmin() {
         gridApi.showLoadingOverlay();
         adminHome(token, startDate, endDate)
           .then((res) => {
-            console.log("eeeeeee", res.data);
+            console.log("resssssss", res.data);
             const formatRes = format(res.data);
             setColumnDefs(formatRes.colDef);
             if (!formatRes.rowData.length) {
@@ -110,9 +110,10 @@ export default function HomeAdmin() {
 
   const DefaultColDef = {
     editable: false,
-    minWidth: 100,
+    minWidth: 200,
     filter: false,
-    flex: 1,
+    resizable: true,
+    // flex: 1,
   };
 
   const getRowStyle = (params) => {
