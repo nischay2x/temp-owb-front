@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
 import AlertBox from "../../common/alert";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-
 const useStyles = makeStyles((theme) => ({
   headercolor: {
     backgroundColor: "#4c79a1",
@@ -129,11 +128,19 @@ export default function CreateWorker() {
                 margin="dense"
                 fullWidth
                 value={phone}
+                //error={isError}
                 onChange={(e) => {
                   setPhone(e.target.value);
+                {/* if (e.target.value.length > 10) {
+                    setIsError(true);
+                  }
+                */}
                 }}
               />
-              <TextField
+           
+
+
+                 <TextField
                 name="Password"
                 className="form-feild"
                 placeholder="Enter Password"

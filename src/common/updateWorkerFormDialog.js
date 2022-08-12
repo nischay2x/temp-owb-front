@@ -132,8 +132,8 @@ export default function UpdateWorkerFormDialog({
                     <Grid item xs={4}>
                       <TextField
                         name="jobsite"
-                        placeholder="Enter jobsite"
-                        label="jobsite"
+                        placeholder="Enter Job Site"
+                        label="Job Site"
                         value={jobData.job_site}
                         onChange={(e) => onChange(e)}
                         variant="outlined"

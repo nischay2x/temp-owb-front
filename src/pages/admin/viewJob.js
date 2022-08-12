@@ -88,7 +88,7 @@ export default function ViewJob() {
       headerClass: classes.headercolor,
       cellRenderer: (data) => {
         return data.value
-          ? new Date(data.value).toLocaleDateString("en-GB")
+          ? new Date(data.value).toLocaleDateString("en-US")
           : "";
       },
     },
@@ -99,7 +99,7 @@ export default function ViewJob() {
       headerClass: classes.headercolor,
       cellRenderer: (data) => {
         return data.value
-          ? new Date(data.value).toLocaleDateString("en-GB")
+          ? new Date(data.value).toLocaleDateString("en-US")
           : "";
       },
     },

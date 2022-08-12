@@ -97,6 +97,7 @@ export default function UpdateWorker() {
                 <Grid container spacing={2}>
                   <Grid item xs={4}>
                     <TextField
+                      className="form-feild"
                       name="FirstName"
                       placeholder="Enter FirstName"
                       label="First Name"
@@ -110,6 +111,7 @@ export default function UpdateWorker() {
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
+                      className="form-feild"
                       name="LastName"
                       placeholder="Enter Last Name"
                       label="Last Name"
@@ -123,6 +125,7 @@ export default function UpdateWorker() {
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
+                      className="form-feild"
                       name="Phone"
                       placeholder="Enter Phone"
                       label="Phone"
@@ -136,6 +139,7 @@ export default function UpdateWorker() {
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
+                      className="form-feild"
                       name="Email"
                       placeholder="Enter Email"
                       label="Email"
@@ -150,6 +154,7 @@ export default function UpdateWorker() {
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
+                      className="form-feild"
                       name="Address"
                       placeholder="Enter Address"
                       label="Address"
@@ -163,6 +168,7 @@ export default function UpdateWorker() {
                   </Grid>
                   <Grid item xs={4}>
                     <TextField
+                      className="form-feild"
                       select
                       value={role}
                       onChange={(e) => setRole(e.target.value)}

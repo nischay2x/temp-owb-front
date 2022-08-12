@@ -143,8 +143,8 @@ export default function UpdateJobsiteWorker() {
                   <Grid item xs={4}>
                     <TextField
                       name="jobsite"
-                      placeholder="Enter jobsite"
-                      label="jobsite"
+                      placeholder="Enter Job Site"
+                      label="Job Site"
                       value={jobSite}
                       onChange={(e) => setJobsite(e.target.value)}
                       variant="outlined"

@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4c79a1",
     color: "white",
   },
+  card:{
+    padding: "40px 20px 30px 20px"
+  }
 }));
 
 export default function CreateJob() {
@@ -81,12 +84,13 @@ export default function CreateJob() {
           Add Details
         </Box>
 
-        <Card style={{ padding: 10 }}>
+        <Card className={classes.card}>
           <Grid container spacing={5}>
+          
             <Grid item xs={4}>
               <TextField
                 name="JobSite"
-                placeholder="Enter Jobsite"
+                placeholder="Enter Job Site"
                 label="Job Site"
                 variant="outlined"
                 margin="dense"
@@ -100,6 +104,7 @@ export default function CreateJob() {
             <Grid item xs={4}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
+                inputFormat="MM/dd/yyyy"
                   label="Job Start Date"
                   value={jobStartDate}
                   onChange={(newValue) => {
@@ -119,6 +124,7 @@ export default function CreateJob() {
             <Grid item xs={4}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
+                inputFormat="MM/dd/yyyy"
                   label="Job End Date"
                   value={jobEndDate}
                   onChange={(newValue) => {
@@ -135,6 +141,7 @@ export default function CreateJob() {
                 />
               </LocalizationProvider>
             </Grid>
+            
           </Grid>
           <Box
             sx={{
@@ -210,7 +217,7 @@ export default function CreateJob() {
 //             <Grid item xs={4}>
 //               <TextField
 //                 name="JobSite"
-//                 placeholder="Enter Jobsite"
+//                 placeholder="Enter Job Site"
 //                 label="Job Site"
 //                 variant="outlined"
 //                 margin="dense"

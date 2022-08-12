@@ -78,8 +78,8 @@ export default function UpdateJobFormDialog({
                     <Grid item xs={4}>
                       <TextField
                         name="job_site"
-                        placeholder="Enter jobsite"
-                        label="jobsite"
+                        placeholder="Enter Job Site"
+                        label="Job Site"
                         value={jobsData.job_site}
                         // onChange={(e) => setJobsite(e.target.value)}
                         onChange={(e) => onChange(e)}

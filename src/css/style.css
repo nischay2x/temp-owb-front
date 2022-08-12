@@ -33,6 +33,9 @@
 .MuiFormControl-marginDense {
     margin-top: 0px !important;
 }
+form {
+    width: 100%;
+  }
 .form-feild{
     margin-top: 8px !important;
     margin-bottom: 4px;
@@ -48,3 +51,16 @@
     padding: 18.5px 14px !important;
     border-color: #0000003b;
 }
+.form-dialog .css-3lxuvf-MuiFormControl-root {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .css-hlj6pa-MuiDialogActions-root {
+    padding: 0 24px 24px !important;
+  }
+  .MuiDialog-paper .MuiDialogActions-root {
+    padding: 0 18px 24px !important;
+  }
+  .ag-header-cell-text {
+    text-transform: capitalize;
+  }
