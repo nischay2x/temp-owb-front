@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
+import dayjs from "dayjs";
 const useStyles = makeStyles((theme) => ({
   headercolor: {
     backgroundColor: "#e5ecf2",
@@ -34,7 +34,9 @@ export default function HomeAdmin() {
   const [gridApi, setGridApi] = useState(null);
   const loginUser = useSelector((state) => state.userReducer);
   const localuser = JSON.parse(localStorage.getItem("user"));
+  
   var date = new Date();
+ 
   var firstDay = new Date(
     date.getFullYear(),
     date.getMonth(),
@@ -59,7 +61,7 @@ export default function HomeAdmin() {
     }, 500);
   };
   const format = ({ header, rows }) => {
-    let colDef = [{ headerName: "Date", field: "date", resizable: true }];
+    let colDef = [{ headerName: "Date", field: "date", resizable: true ,valueFormatter: params => dayjs(params.value).format('MM/DD/YYYY') }];
     console.log("dattatattttt");
     header.names.forEach((n, i) => {
       colDef.push({ headerName: n, field: n, resizable: true });

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   paperContainer: {
     backgroundImage: `url(${BackgroundImage})`,
     backgroundPosition: "center",
-    backgroundSize: "",
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     width: "100%",
     height: "100vh",

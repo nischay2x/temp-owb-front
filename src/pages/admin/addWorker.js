@@ -158,7 +158,7 @@ export default function AddWorker() {
             <Grid item xs={4}>
               <TextField
                 name="JobSite"
-                placeholder="Enter Jobsite"
+                placeholder="Enter Job Site"
                 value={getJobData.job_site}
                 disabled
                 onChange={() => {}}

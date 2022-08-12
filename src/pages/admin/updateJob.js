@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4c79a1",
     color: "white",
   },
+  card:{
+    padding: "40px 20px 30px 20px"
+  }
 }));
 
 export default function UpdateJob() {
@@ -82,16 +85,17 @@ export default function UpdateJob() {
         >
           Update Job
         </Box>
-        <Card style={{ padding: 10 }}>
-          <Grid container>
-            <form onSubmit={onSubmit}>
-              <Box>
-                <Grid container spacing={2}>
+        <Card className={classes.card}>
+        <form onSubmit={onSubmit}>
+          <Grid container spacing={5} >
+            
+              {/*<Box>
+                <Grid container spacing={2}>*/}
                   <Grid item xs={4}>
                     <TextField
                       name="jobsite"
-                      placeholder="Enter jobsite"
-                      label="jobsite"
+                      placeholder="Enter Job Site"
+                      label="Job Site"
                       value={jobSite}
                       onChange={(e) => setJobsite(e.target.value)}
                       variant="outlined"
@@ -138,10 +142,11 @@ export default function UpdateJob() {
                       />
                     </LocalizationProvider>
                   </Grid>
-                </Grid>
-              </Box>
-            </form>
+                {/*</Grid>
+              </Box>*/}
+         
           </Grid>
+          </form>
           <Box
             sx={{
               mt: 5,

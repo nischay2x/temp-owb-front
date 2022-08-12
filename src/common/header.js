@@ -166,7 +166,8 @@ const Header = (props) => {
               component="img"
               sx={{
                 height: 45,
-                width: 200,
+                //width: 200,
+                width: "auto"
               }}
               alt=""
               src="https://cloud.vastedge.com/apps/vastedge/r/327/files/static/v5/OWB-New-Bath-Logo.webp"

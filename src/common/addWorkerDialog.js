@@ -177,7 +177,7 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
             {/* <Grid item xs={4}>
               <TextField
                 name="JobSite"
-                placeholder="Enter Jobsite"
+                placeholder="Enter Job Site"
                 value={getJobData.job_site}
                 disabled
                 onChange={() => {}}
@@ -239,7 +239,7 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
                 Add Worker
               </Button>
             </Grid> */}
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}  className="form-dialog">
               {/* {formFields?.map((f, index) => {
                 return ( */}
               <Box /* key={index}*/>
@@ -254,6 +254,8 @@ export default function AddWorkerDialog({ open, handleClose, id, refreshApi }) {
                         Email
                       </InputLabel>
                       <Select
+                      sx={{ mt: 0, mb: 0 }}
+                       
                         notched={true}
                         labelId="demo-simple-select-label"
                         label="Email"

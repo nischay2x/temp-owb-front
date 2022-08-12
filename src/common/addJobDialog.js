@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0px",
   },
   dialogPaper: {
-    height: "400px",
+    height: "auto",
     width: "700px",
   },
 }));
@@ -207,7 +207,7 @@ export default function AddJobDialog({
                 Add job
               </Button>
             </Grid> */}
-            <form onSubmit={onSubmit} style={{ width: "100%" }}>
+            <form onSubmit={onSubmit} className="form-dialog" style={{ width: "100%" }}>
               {/* {formFields?.map((f, index) => {
                 return ( */}
               <Box /* key={index} */>
@@ -227,7 +227,7 @@ export default function AddJobDialog({
                       <Select
                         notched={true}
                         labelId="demo-simple-select-label"
-                        label="Jobsite"
+                        label="Job Site"
                         displayEmpty
                         variant="outlined"
                         margin="dense"
@@ -304,7 +304,7 @@ export default function AddJobDialog({
                       />
                     </LocalizationProvider>
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={4}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DatePicker
                         name="userEndDate"

@@ -11,7 +11,7 @@ import { getJobList } from "../../actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { localuser } from "../../config/constant";
 import { Edit } from "@material-ui/icons";
-
+import dayjs from "dayjs";
 const useStyles = makeStyles((theme) => ({
   headercolor: {
     backgroundColor: "#e5ecf2",
@@ -121,7 +121,7 @@ export default function JobSites() {
       headerClass: classes.headercolor,
       cellRenderer: (data) => {
         return data.value
-          ? new Date(data.value).toLocaleDateString("en-GB")
+          ? new Date(data.value).toLocaleDateString("en-US")
           : "";
       },
     },
@@ -131,9 +131,10 @@ export default function JobSites() {
       headerClass: classes.headercolor,
       cellRenderer: (data) => {
         return data.value
-          ? new Date(data.value).toLocaleDateString("en-GB")
+          ? new Date(data.value).toLocaleDateString("en-US")
           : "";
       },
+
     },
   ];
   const DefaultColDef = {
